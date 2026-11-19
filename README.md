@@ -22,13 +22,13 @@
 ## 📥 طريقة التثبيت على التلفاز
 
 1. افتح متجر **Google Play** على التلفاز ونزّل تطبيق **Downloader**.
-2. افتح Downloader واكتب هذا الكود: **`2321647`**
+2. افتح Downloader واكتب هذا الكود: **`9813581`**
 3. انتظر التحميل ثم اضغط **تثبيت**.
 
 > إذا طلب التلفاز السماح بالتثبيت من مصادر غير معروفة، وافق لتطبيق Downloader ثم ارجع واضغط تثبيت مرة ثانية.
 
 **رابط التحميل المباشر:**
-[تحميل آخر إصدار](https://github.com/aseer-coder/luna/releases/latest/download/lunalauncher.apk)
+[تحميل آخر إصدار](https://github.com/aseer-coder/lunalauncher/releases/latest/download/lunalauncher.apk)
 
 ---
 
