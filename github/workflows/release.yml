@@ -1,0 +1,53 @@
+name: Publish release
+
+on:
+  push:
+    branches: [main]
+    paths: ['lunalauncher.apk']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from APK
+        run: |
+          AAPT=$(ls $ANDROID_HOME/build-tools/*/aapt | sort -V | tail -1)
+          INFO=$($AAPT dump badging lunalauncher.apk | head -1)
+          CODE=$(echo "$INFO" | sed -n "s/.*versionCode='\([^']*\)'.*/\1/p")
+          NAME=$(echo "$INFO" | sed -n "s/.*versionName='\([^']*\)'.*/\1/p")
+          if [ -z "$CODE" ] || [ -z "$NAME" ]; then
+            echo "Could not read version from APK"; exit 1
+          fi
+          NOTES=$(git log -1 --pretty=%s)
+          case "$NOTES" in
+            "Add files"*|"Upload"*|"Create"*) NOTES="تحسينات وإصلاحات" ;;
+          esac
+          echo "CODE=$CODE" >> $GITHUB_ENV
+          echo "NAME=$NAME" >> $GITHUB_ENV
+          echo "NOTES=$NOTES" >> $GITHUB_ENV
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$NAME" > /dev/null 2>&1; then
+            echo "Release $NAME already exists. Raise versionName and versionCode."; exit 1
+          fi
+          gh release create "$NAME" lunalauncher.apk --title "$NAME" --notes "$NOTES" --latest
+
+      - name: Update update.json and remove APK from main
+        run: |
+          jq -n --argjson code "$CODE" --arg name "$NAME" --arg notes "$NOTES" \
+            --arg url "https://github.com/${{ github.repository }}/releases/download/$NAME/lunalauncher.apk" \
+            '{versionCode: $code, versionName: $name, url: $url, notes: $notes}' > update.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git rm -q lunalauncher.apk
+          git add update.json
+          git commit -m "Release $NAME"
+          git push
