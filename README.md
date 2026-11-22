@@ -96,3 +96,17 @@
 **Eng: Aseer_bdair**
 
 جميع الحقوق محفوظة © 2026
+
+<!--GITMANGE_START-->
+## ⬇️ آخر إصدار: 1.2
+
+| الإصدار | الرقم | الحجم | التاريخ |
+|---|---|---|---|
+| 1.2 | 3 | 22.5 MB | 2026-11-22 |
+
+**[📥 تحميل APK](https://github.com/aseer-coder/LunaLauncher/releases/download/1.3/Lunalauncher.apk)**
+
+### ما الجديد
+
+تحسينات وإصلاحات.
+<!--GITMANGE_END-->
